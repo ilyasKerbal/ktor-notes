@@ -25,6 +25,8 @@ sourceSets {
 repositories {
     mavenLocal()
     jcenter()
+    maven { url 'https://kotlin.bintray.com/ktor' }
+    maven { url 'https://kotlin.bintray.com/kotlin-js-wrappers' }
 }
 
 //dependencies {
@@ -33,6 +35,12 @@ repositories {
 //    implementation "ch.qos.logback:logback-classic:$logback_version"
 //    testImplementation "io.ktor:ktor-server-tests:$ktor_version"
 //}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
