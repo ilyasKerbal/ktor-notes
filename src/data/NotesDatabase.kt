@@ -2,8 +2,9 @@ package io.github.ilyaskerbal.noteappktor.data
 
 import io.github.ilyaskerbal.noteappktor.data.collections.Note
 import io.github.ilyaskerbal.noteappktor.data.collections.User
+import kotlinx.coroutines.flow.toList
+import org.litote.kmongo.contains
 import org.litote.kmongo.coroutine.coroutine
-import org.litote.kmongo.coroutine.insertOne
 import org.litote.kmongo.eq
 import org.litote.kmongo.reactivestreams.KMongo
 
@@ -24,4 +25,8 @@ suspend fun checkIFUserExists(email: String) : Boolean {
 suspend fun checkPasswordForEmail(email: String, password: String) : Boolean {
     val actualPassword = userCollection.findOne(User::email eq email)?.password ?: return false
     return actualPassword == password
+}
+
+suspend fun getNotesForUser(email: String) : List<Note> {
+    return noteCollection.find(Note::owners contains email).toList()
 }

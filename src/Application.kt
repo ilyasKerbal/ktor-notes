@@ -4,6 +4,7 @@ import io.github.ilyaskerbal.noteappktor.data.checkPasswordForEmail
 import io.github.ilyaskerbal.noteappktor.data.collections.User
 import io.github.ilyaskerbal.noteappktor.data.insertUser
 import io.github.ilyaskerbal.noteappktor.routes.loginRoute
+import io.github.ilyaskerbal.noteappktor.routes.noteRoute
 import io.github.ilyaskerbal.noteappktor.routes.registerRoute
 import io.ktor.application.*
 import io.ktor.auth.*
@@ -28,12 +29,13 @@ fun Application.module(testing: Boolean = false) {
             setPrettyPrinting()
         }
     }
+    install(Authentication) {
+        configureAuth()
+    }
     install(Routing) {
         registerRoute()
         loginRoute()
-    }
-    install(Authentication) {
-        configureAuth()
+        noteRoute()
     }
 }
 
