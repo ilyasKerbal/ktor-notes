@@ -3,6 +3,7 @@ package io.github.ilyaskerbal.noteappktor.data
 import io.github.ilyaskerbal.noteappktor.data.collections.Note
 import io.github.ilyaskerbal.noteappktor.data.collections.User
 import kotlinx.coroutines.flow.toList
+import org.bson.conversions.Bson
 import org.litote.kmongo.contains
 import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.eq
@@ -29,4 +30,13 @@ suspend fun checkPasswordForEmail(email: String, password: String) : Boolean {
 
 suspend fun getNotesForUser(email: String) : List<Note> {
     return noteCollection.find(Note::owners contains email).toList()
+}
+
+suspend fun saveNote(note: Note) : Boolean {
+    val noteExists = note.id != null &&  noteCollection.findOneById(note.id) != null
+    return if (noteExists) {
+        noteCollection.updateOneById(note.id, note).wasAcknowledged()
+    } else {
+        noteCollection.insertOne(note).wasAcknowledged()
+    }
 }
