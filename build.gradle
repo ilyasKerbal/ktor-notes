@@ -59,7 +59,7 @@ dependencies {
     implementation 'org.litote.kmongo:kmongo:4.0.2' // https://litote.org/kmongo/
     implementation 'org.litote.kmongo:kmongo-coroutine:4.0.2'
 
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0'
 
     implementation 'commons-codec:commons-codec:1.14'
 
