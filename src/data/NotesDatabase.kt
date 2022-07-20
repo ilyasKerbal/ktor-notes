@@ -43,7 +43,7 @@ suspend fun saveNote(note: Note) : Boolean {
 }
 
 suspend fun deleteNoteForUser(email: String, noteId: String) : Boolean {
-    val note = noteCollection.findOneById(noteId)
+    val note = noteCollection.findOne(Note::id eq noteId, Note::owners contains email)
     note?.let {
         if (it.owners.size > 1) {
             val newOwners = note.owners - email
