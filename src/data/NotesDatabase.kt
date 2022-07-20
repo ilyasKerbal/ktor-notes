@@ -8,6 +8,7 @@ import org.litote.kmongo.contains
 import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.eq
 import org.litote.kmongo.reactivestreams.KMongo
+import org.litote.kmongo.setValue
 
 private const val DATABASE_NAME = "NotesDatabase"
 
@@ -39,4 +40,17 @@ suspend fun saveNote(note: Note) : Boolean {
     } else {
         noteCollection.insertOne(note).wasAcknowledged()
     }
+}
+
+suspend fun deleteNoteForUser(email: String, noteId: String) : Boolean {
+    val note = noteCollection.findOneById(noteId)
+    note?.let {
+        if (it.owners.size > 1) {
+            val newOwners = note.owners - email
+            val updateResult = noteCollection.updateOneById(note.id, setValue(Note::owners, newOwners))
+            return updateResult.wasAcknowledged()
+        } else {
+            return noteCollection.deleteOneById(noteId).wasAcknowledged()
+        }
+    } ?: return false
 }
