@@ -54,3 +54,13 @@ suspend fun deleteNoteForUser(email: String, noteId: String) : Boolean {
         }
     } ?: return false
 }
+
+suspend fun isOwnerOfNote(noteId: String, owner: String) : Boolean {
+    val note = noteCollection.findOneById(noteId) ?: return false
+    return owner in note.owners
+}
+
+suspend fun addOwnerToNote(noteId: String, owner: String) : Boolean {
+    val note = noteCollection.findOneById(noteId) ?: return false
+    return noteCollection.updateOneById(noteId, setValue(Note::owners, note.owners + owner)).wasAcknowledged()
+}
