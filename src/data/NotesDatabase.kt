@@ -20,3 +20,8 @@ suspend fun checkIFUserExists(email: String) : Boolean {
     // we can also use a string as a filter: {email: $email}
     return userCollection.findOne(User::email eq email) != null
 }
+
+suspend fun checkPasswordForEmail(email: String, password: String) : Boolean {
+    val actualPassword = userCollection.findOne(User::email eq email)?.password ?: return false
+    return actualPassword == password
+}

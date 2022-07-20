@@ -2,6 +2,7 @@ package io.github.ilyaskerbal.noteappktor
 
 import io.github.ilyaskerbal.noteappktor.data.collections.User
 import io.github.ilyaskerbal.noteappktor.data.insertUser
+import io.github.ilyaskerbal.noteappktor.routes.loginRoute
 import io.github.ilyaskerbal.noteappktor.routes.registerRoute
 import io.ktor.application.*
 import io.ktor.features.*
@@ -27,6 +28,7 @@ fun Application.module(testing: Boolean = false) {
     }
     install(Routing) {
         registerRoute()
+        loginRoute()
     }
 }
 
